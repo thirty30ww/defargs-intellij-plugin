@@ -16,9 +16,9 @@ service.createUser("Alice");  // 报错：找不到方法
 
 ### 手动安装
 
-1. 下载最新的插件 jar 包
+1. 从 [Releases](https://github.com/thirty30ww/defargs-intellij-plugin/releases) 页面下载最新的插件 zip 包
 2. 打开 IDEA，进入 `Settings` → `Plugins` → 齿轮图标 → `Install Plugin from Disk...`
-3. 选择下载的 jar 包并安装
+3. 选择下载的 zip 包并安装
 4. 重启 IDEA
 
 ### 从源码构建
