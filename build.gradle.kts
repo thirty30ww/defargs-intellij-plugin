@@ -5,9 +5,12 @@ plugins {
 }
 
 group = "io.github.thirty30ww"
-version = "1.0.1-SNAPSHOT"
+version = "1.0.1"
 
 repositories {
+    // 阿里云镜像源
+    maven { url = uri("https://maven.aliyun.com/repository/public") }
+    maven { url = uri("https://maven.aliyun.com/repository/central") }
     mavenCentral()
 }
 
@@ -31,8 +34,8 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("242")
-        untilBuild.set("242.*")
+        sinceBuild.set("241")
+        untilBuild.set("") // 显式清空上限，支持所有未来版本
     }
 
     signPlugin {

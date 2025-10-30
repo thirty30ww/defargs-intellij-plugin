@@ -37,7 +37,7 @@ gradlew buildPlugin
 
 ## 兼容性
 
-支持 IntelliJ IDEA 2024.2 及更高版本（包括 Community 和 Ultimate 版本）。
+支持 IntelliJ IDEA 2024.1 及更高版本（包括 Community 和 Ultimate 版本）。
 
 ## 协议
 
