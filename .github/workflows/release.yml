@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'  # 当推送 v 开头的 tag 时触发，如 v1.0, v1.0.1
 
+permissions:
+  contents: write  # 允许创建 Release
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,7 +35,7 @@ jobs:
       - name: Create Release and Upload Asset
         uses: softprops/action-gh-release@v1
         with:
-          files: ./build/distributions/defargs-intellij-plugin-1.0-SNAPSHOT.zip
+          files: ./build/distributions/*.zip
           name: Release ${{ steps.get_version.outputs.VERSION }}
           draft: false
           prerelease: false
