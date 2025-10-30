@@ -1,0 +1,43 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>io.github.thirty30ww.defargs-intellij-plugin</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>DefArgs Support</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="thirty30ww@github.com" url="https://github.com/thirty30ww">thirty30ww</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    为 DefArgs 注解处理器提供 IntelliJ IDEA 支持。<br>
+    <br>
+    DefArgs 是一个 Java 注解处理器，通过 @DefaultValue 注解自动生成方法的重载版本。<br>
+    该插件让 IDEA 能够识别这些在编译时生成的重载方法，消除代码中的"红色波浪线"错误提示。<br>
+    <br>
+    <strong>功能特性：</strong>
+    <ul>
+      <li>自动识别 @DefaultValue 注解的方法参数</li>
+      <li>为编译时生成的重载方法提供代码补全</li>
+      <li>消除 IDEA 对生成方法的错误提示</li>
+      <li>支持方法跳转和引用查找</li>
+    </ul>
+  ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- 注册 PSI 增强提供者，用于提供虚拟的重载方法 -->
+        <lang.psiAugmentProvider 
+            implementation="io.github.thirty30ww.defargs.intellij.DefArgsPsiAugmentProvider"/>
+    </extensions>
+</idea-plugin>
