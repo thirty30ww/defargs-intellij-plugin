@@ -35,23 +35,9 @@ gradlew buildPlugin
 
 > 原本显示错误的方法调用不再标红，代码补全也能正确提示生成的重载方法。
 
-## 工作原理
-
-插件通过实现 `PsiAugmentProvider` 扩展点，在 IDEA 解析 Java 代码时动态添加虚拟方法节点。这些虚拟方法对应 DefArgs 在编译时会生成的重载方法，使得 IDEA 的类型检查、代码补全等功能能够正确工作。
-
 ## 兼容性
 
 支持 IntelliJ IDEA 2024.2 及更高版本（包括 Community 和 Ultimate 版本）。
-
-## 开发调试
-
-运行沙箱环境进行测试：
-
-```bash
-gradlew runIde
-```
-
-这会启动一个包含你的插件的 IDEA 实例，你可以在其中打开测试项目验证功能。
 
 ## 协议
 
