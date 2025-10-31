@@ -14,13 +14,32 @@ object DefaultValueAnalyzer {
     private const val DEFAULT_VALUE_ANNOTATION = "io.github.thirty30ww.defargs.annotation.DefaultValue"
     
     /**
-     * 分析方法的参数，返回所有需要生成的重载方法的参数数量列表
+     * 分析方法的参数，返回所有需要生成的重载方法的参数数量列表，例如
+     *
+     * 假设有方法
+     * ```
+     * void func(int a, @DefaultValue("2") int b, @DefaultValue("3") int c)
+     * ```
+     *
+     * 则会生成参数数量为 [2, 1] 的两个重载方法：
+     * ```
+     * void func(int a, int b)
+     * void func(int a)
+     * ```
+     *
+     * 所以返回
+     * ```
+     * [2, 1]
+     * ```
+     *
+     * @param method 要分析的方法的 PsiMethod 对象
+     * @return 所有需要生成的重载方法的参数数量列表
      */
     fun analyzeMethod(method: PsiMethod): List<Int> {
+        // 获取方法的所有参数（PSI 树节点）
         val parameters = method.parameterList.parameters
-        if (parameters.isEmpty()) {
-            return emptyList()
-        }
+        // 无参方法，不需要处理
+        if (parameters.isEmpty()) return emptyList()
         
         // 找出所有带 @DefaultValue 注解的参数位置
         val defaultValueIndices = mutableListOf<Int>()

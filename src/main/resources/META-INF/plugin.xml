@@ -39,5 +39,9 @@
         <!-- 注册 PSI 增强提供者，用于提供虚拟的重载方法 -->
         <lang.psiAugmentProvider 
             implementation="io.github.thirty30ww.defargs.intellij.DefArgsPsiAugmentProvider"/>
+        
+        <!-- 注册方法引用搜索器，用于查找对虚拟重载方法的引用 -->
+        <methodReferencesSearch 
+            implementation="io.github.thirty30ww.defargs.intellij.DefArgsReferenceSearcher"/>
     </extensions>
 </idea-plugin>
