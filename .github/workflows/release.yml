@@ -25,6 +25,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       
+      - name: Use official Gradle distribution URL in CI
+        run: |
+          sed -i 's|distributionUrl=https\\://mirrors.aliyun.com/macports/distfiles/gradle/|distributionUrl=https\\://services.gradle.org/distributions/|g' gradle/wrapper/gradle-wrapper.properties
+      
       - name: Build plugin
         run: ./gradlew buildPlugin
       

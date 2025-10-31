@@ -1,8 +1,10 @@
 pluginManagement {
     repositories {
-        // 阿里云镜像源
-        maven { url = uri("https://maven.aliyun.com/repository/public") }
-        maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
+        // 在非 CI 环境使用阿里云镜像加速
+        if (System.getenv("CI") == null) {
+            maven { url = uri("https://maven.aliyun.com/repository/public") }
+            maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
+        }
         mavenCentral()
         gradlePluginPortal()
     }
@@ -10,11 +12,13 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
-        // 阿里云镜像源
-        maven { url = uri("https://maven.aliyun.com/repository/public") }
-        maven { url = uri("https://maven.aliyun.com/repository/central") }
-        maven { url = uri("https://maven.aliyun.com/repository/google") }
-        maven { url = uri("https://maven.aliyun.com/repository/jcenter") }
+        // 在非 CI 环境使用阿里云镜像加速
+        if (System.getenv("CI") == null) {
+            maven { url = uri("https://maven.aliyun.com/repository/public") }
+            maven { url = uri("https://maven.aliyun.com/repository/central") }
+            maven { url = uri("https://maven.aliyun.com/repository/google") }
+            maven { url = uri("https://maven.aliyun.com/repository/jcenter") }
+        }
         mavenCentral()
         google()
     }

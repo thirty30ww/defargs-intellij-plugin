@@ -5,12 +5,14 @@ plugins {
 }
 
 group = "io.github.thirty30ww"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
-    // 阿里云镜像源
-    maven { url = uri("https://maven.aliyun.com/repository/public") }
-    maven { url = uri("https://maven.aliyun.com/repository/central") }
+    // 在非 CI 环境使用阿里云镜像加速
+    if (System.getenv("CI") == null) {
+        maven { url = uri("https://maven.aliyun.com/repository/public") }
+        maven { url = uri("https://maven.aliyun.com/repository/central") }
+    }
     mavenCentral()
 }
 
