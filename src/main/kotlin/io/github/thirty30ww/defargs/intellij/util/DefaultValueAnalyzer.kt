@@ -1,4 +1,4 @@
-package io.github.thirty30ww.defargs.intellij
+package io.github.thirty30ww.defargs.intellij.util
 
 import com.intellij.psi.*
 
@@ -115,5 +115,4 @@ object DefaultValueAnalyzer {
         }
     }
 }
-
 

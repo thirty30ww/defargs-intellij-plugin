@@ -8,6 +8,7 @@ import com.intellij.psi.search.UsageSearchContext
 import com.intellij.psi.search.searches.MethodReferencesSearch
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.Processor
+import io.github.thirty30ww.defargs.intellij.util.DefaultValueAnalyzer
 
 /**
  * 虚拟方法引用搜索器
@@ -31,7 +32,7 @@ import com.intellij.util.Processor
  * obj.test("a", "b");   // 2个参数，调用原方法 - 默认就能找到 ✓
  * ```
  */
-class DefArgsReferenceSearcher : QueryExecutorBase<PsiReference, MethodReferencesSearch.SearchParameters>(true) {
+class ReferenceSearcher : QueryExecutorBase<PsiReference, MethodReferencesSearch.SearchParameters>(true) {
 
     /**
      * 处理查询，查找对虚拟重载方法的调用

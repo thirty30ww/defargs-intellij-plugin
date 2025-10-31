@@ -1,15 +1,16 @@
 package io.github.thirty30ww.defargs.intellij
 
 import com.intellij.psi.*
-import com.intellij.psi.augment.PsiAugmentProvider
+import com.intellij.psi.augment.PsiAugmentProvider as IntelliJPsiAugmentProvider
 import com.intellij.psi.impl.light.LightMethodBuilder
 import com.intellij.psi.impl.source.PsiExtensibleClass
+import io.github.thirty30ww.defargs.intellij.util.DefaultValueAnalyzer
 
 /**
  * PSI 增强提供者，为带有 @DefaultValue 注解的方法生成虚拟的重载方法
  * 这样 IDEA 就能识别这些由注解处理器在编译时生成的方法
  */
-class DefArgsPsiAugmentProvider : PsiAugmentProvider() {
+class PsiAugmentProvider : IntelliJPsiAugmentProvider() {
 
     /**
      * 为指定的 PsiElement 提供增强的 PsiElement 列表

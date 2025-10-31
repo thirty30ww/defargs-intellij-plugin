@@ -38,10 +38,19 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- 注册 PSI 增强提供者，用于提供虚拟的重载方法 -->
         <lang.psiAugmentProvider 
-            implementation="io.github.thirty30ww.defargs.intellij.DefArgsPsiAugmentProvider"/>
+            implementation="io.github.thirty30ww.defargs.intellij.PsiAugmentProvider"/>
         
         <!-- 注册方法引用搜索器，用于查找对虚拟重载方法的引用 -->
         <methodReferencesSearch 
-            implementation="io.github.thirty30ww.defargs.intellij.DefArgsReferenceSearcher"/>
+            implementation="io.github.thirty30ww.defargs.intellij.ReferenceSearcher"/>
+        
+        <!-- 注册代码检查，用于检测重载方法冲突 -->
+        <localInspection
+            language="JAVA"
+            displayName="DefArgs overload method conflict"
+            groupName="DefArgs"
+            enabledByDefault="true"
+            level="ERROR"
+            implementationClass="io.github.thirty30ww.defargs.intellij.ConflictInspection"/>
     </extensions>
 </idea-plugin>

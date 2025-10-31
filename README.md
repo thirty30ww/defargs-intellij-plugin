@@ -1,5 +1,8 @@
 # DefArgs IntelliJ IDEA Plugin
 
+[![GitHub Release](https://img.shields.io/github/v/release/thirty30ww/defargs-intellij-plugin?label=Release)](https://github.com/thirty30ww/defargs-intellij-plugin/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 为 [DefArgs](https://github.com/thirty30ww/defargs) 注解处理器提供 IntelliJ IDEA 支持的插件。
 
 ## 解决的问题
