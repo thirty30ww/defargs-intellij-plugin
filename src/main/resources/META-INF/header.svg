@@ -1,0 +1,101 @@
+<svg width="1600" height="900" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- 渐变定义 -->
+        <linearGradient id="cubeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6C48EF" />
+            <stop offset="100%" stop-color="#3A8DFF" />
+        </linearGradient>
+        <linearGradient id="cubeGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#5A3CD8" />
+            <stop offset="100%" stop-color="#2E7AE6" />
+        </linearGradient>
+        <linearGradient id="cubeGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4A30C1" />
+            <stop offset="100%" stop-color="#2366CC" />
+        </linearGradient>
+
+        <!-- 文字渐变 -->
+        <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6C48EF" />
+            <stop offset="50%" stop-color="#4A30C1" />
+            <stop offset="100%" stop-color="#3A8DFF" />
+        </linearGradient>
+
+        <!-- xyz背景板渐变 -->
+        <linearGradient id="xGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FF6B6B" />
+            <stop offset="100%" stop-color="#FF5252" />
+        </linearGradient>
+        <linearGradient id="yGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4ECDC4" />
+            <stop offset="100%" stop-color="#26A69A" />
+        </linearGradient>
+        <linearGradient id="zGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFD166" />
+            <stop offset="100%" stop-color="#FFB74D" />
+        </linearGradient>
+
+        <!-- 花括号阴影效果 -->
+        <filter id="braceShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
+        </filter>
+
+        <!-- 光晕效果 -->
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- 整个内容组，水平居中 -->
+    <g>
+        <!-- 3D立方体效果 -->
+        <!-- 后面板 -->
+        <polygon points="60,40 140,20 140,100 60,120" fill="url(#cubeGrad3)" opacity="0.8"/>
+
+        <!-- 侧面 -->
+        <polygon points="40,60 60,40 60,120 40,140" fill="url(#cubeGrad2)" opacity="0.9"/>
+
+        <!-- 前面板 -->
+        <polygon points="40,60 120,40 120,120 40,140" fill="url(#cubeGrad1)"/>
+
+        <!-- f两侧的花括号 -->
+        <g filter="url(#braceShadow)">
+            <!-- 左侧花括号 -->
+            <text x="60" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="white" transform="rotate(-15, 60, 100)">{</text>
+
+            <!-- 函数符号f -->
+            <text x="80" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="white" filter="url(#glow)">ƒ</text>
+
+            <!-- 右侧花括号 -->
+            <text x="100" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="white" transform="rotate(10, 100, 105)">}</text>
+        </g>
+
+        <!-- 浮动参数元素 -->
+        <g transform="translate(150, 30) rotate(15)">
+            <rect x="0" y="0" width="24" height="24" rx="4" fill="url(#xGrad)" opacity="0.95"/>
+            <text x="12" y="15" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">x</text>
+        </g>
+
+        <g transform="translate(155, 80) rotate(-10)">
+            <rect x="0" y="0" width="24" height="24" rx="4" fill="url(#yGrad)" opacity="0.95"/>
+            <text x="12" y="15" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">y</text>
+        </g>
+
+        <g transform="translate(145, 125) rotate(5)">
+            <rect x="0" y="0" width="24" height="24" rx="4" fill="url(#zGrad)" opacity="0.95"/>
+            <text x="12" y="15" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">z</text>
+        </g>
+
+        <!-- 连接线 -->
+        <path d="M 120,70 C 135,65 140,35 150,35" stroke="#FFFFFF" stroke-width="1.5" fill="none" opacity="0.7"/>
+        <path d="M 120,85 C 135,85 145,90 158,90" stroke="#FFFFFF" stroke-width="1.5" fill="none" opacity="0.7"/>
+        <path d="M 120,100 C 135,105 140,130 145,130" stroke="#FFFFFF" stroke-width="1.5" fill="none" opacity="0.7"/>
+
+        <!-- 插件名称 - 缩小字号并调整位置 -->
+        <text x="280" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="url(#textGrad)">DefArgs</text>
+    </g>
+</svg>

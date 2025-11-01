@@ -1,3 +1,5 @@
+![header](src/main/resources/META-INF/header.svg)
+
 # DefArgs IntelliJ IDEA Plugin
 
 [![GitHub Release](https://img.shields.io/github/v/release/thirty30ww/defargs-intellij-plugin?label=Release)](https://github.com/thirty30ww/defargs-intellij-plugin/releases)
@@ -30,7 +32,7 @@ service.createUser("Alice");  // 报错：找不到方法
 gradlew buildPlugin
 ```
 
-生成的插件位于 `build/distributions/defargs-intellij-plugin-1.0-SNAPSHOT.zip`
+生成的插件位于 `build/distributions/defargs-intellij-plugin-version.zip`
 
 ## 使用方法
 
