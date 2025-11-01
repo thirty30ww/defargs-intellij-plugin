@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8ea831f3-5e83-4d58-a710-2f85983f9200" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/pluginIcon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/pluginIcon.svg" afterDir="false" />
-    </list>
+    <list default="true" id="8ea831f3-5e83-4d58-a710-2f85983f9200" name="更改" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -193,6 +190,7 @@
       <workItem from="1761971347473" duration="62000" />
       <workItem from="1761972008869" duration="1753000" />
       <workItem from="1761973772902" duration="473000" />
+      <workItem from="1761976440794" duration="1500000" />
     </task>
     <servers />
   </component>

@@ -91,9 +91,9 @@
         </g>
 
         <!-- 连接线 -->
-        <path d="M 120,70 C 135,65 140,35 150,35" stroke="#FFFFFF" stroke-width="1.5" fill="none" opacity="0.7"/>
-        <path d="M 120,85 C 135,85 145,90 158,90" stroke="#FFFFFF" stroke-width="1.5" fill="none" opacity="0.7"/>
-        <path d="M 120,100 C 135,105 140,130 145,130" stroke="#FFFFFF" stroke-width="1.5" fill="none" opacity="0.7"/>
+        <path d="M 120,80 C 135,65 140,35 148.7,35" stroke="#FF6B6B" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <path d="M 120,85 C 135,85 145,90 157,90" stroke="#4ECDC4" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <path d="M 120,100 C 135,105 140,130 145,130" stroke="#FFD166" stroke-width="1.5" fill="none" opacity="0.5"/>
 
         <!-- 插件名称 - 缩小字号并调整位置 -->
         <text x="280" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="url(#textGrad)">DefArgs</text>
