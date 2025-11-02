@@ -6,6 +6,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiAnnotation
 import io.github.thirty30ww.defargs.intellij.constant.DefArgsConstants
+import io.github.thirty30ww.defargs.intellij.util.ImportHelper
 
 /**
  * 快速修复：将 @Omittable 转换为 @DefaultValue
@@ -27,20 +28,8 @@ class ConvertToDefaultValueQuickFix : LocalQuickFix {
             annotation
         )
         
-        // 添加 import 语句
-        val containingFile = annotation.containingFile
-        if (containingFile is com.intellij.psi.PsiJavaFile) {
-            val importList = containingFile.importList
-            if (importList != null) {
-                val importStatement = factory.createImportStatement(
-                    JavaPsiFacade.getInstance(project).findClass(
-                        DefArgsConstants.DEFAULT_VALUE_ANNOTATION,
-                        annotation.resolveScope
-                    ) ?: return
-                )
-                importList.add(importStatement)
-            }
-        }
+        // 添加 import 语句（如果尚未导入）
+        ImportHelper.addImportIfNeeded(project, annotation, DefArgsConstants.DEFAULT_VALUE_ANNOTATION)
         
         // 替换注解
         annotation.replace(defaultValueAnnotation)

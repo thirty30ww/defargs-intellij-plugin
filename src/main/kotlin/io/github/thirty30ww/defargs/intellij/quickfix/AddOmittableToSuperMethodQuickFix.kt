@@ -6,6 +6,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import io.github.thirty30ww.defargs.intellij.constant.DefArgsConstants
 import io.github.thirty30ww.defargs.intellij.util.AnnotationAnalyzer
+import io.github.thirty30ww.defargs.intellij.util.ImportHelper
 
 /**
  * 快速修复：在父方法的对应参数上添加 @Omittable 或将 @DefaultValue 转换为 @Omittable
@@ -48,21 +49,8 @@ class AddOmittableToSuperMethodQuickFix(
             modifierList.addBefore(omittableAnnotation, modifierList.firstChild)
         }
         
-        // 添加 import 语句
-        val containingFile = superMethod.containingFile
-        if (containingFile is PsiJavaFile) {
-            val importList = containingFile.importList
-            if (importList != null) {
-                val classToImport = JavaPsiFacade.getInstance(project).findClass(
-                    DefArgsConstants.OMITTABLE_ANNOTATION,
-                    superMethod.resolveScope
-                )
-                if (classToImport != null) {
-                    val importStatement = factory.createImportStatement(classToImport)
-                    importList.add(importStatement)
-                }
-            }
-        }
+        // 添加 import 语句（如果尚未导入）
+        ImportHelper.addImportIfNeeded(project, superMethod, DefArgsConstants.OMITTABLE_ANNOTATION)
     }
 }
 

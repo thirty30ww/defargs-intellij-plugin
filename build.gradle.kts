@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.thirty30ww"
-version = "1.0.4"
+version = "1.0.5"
 
 repositories {
     // 在非 CI 环境使用阿里云镜像加速
