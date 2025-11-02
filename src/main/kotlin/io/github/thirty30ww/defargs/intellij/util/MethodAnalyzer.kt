@@ -1,5 +1,6 @@
 package io.github.thirty30ww.defargs.intellij.util
 
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiModifier
 
@@ -67,6 +68,70 @@ object MethodAnalyzer {
         }
         
         return true
+    }
+    
+    /**
+     * 构建参数列表字符串，用于错误提示
+     * 
+     * 格式：类型1 参数名1, 类型2 参数名2
+     * 例如：int a, String name
+     * 
+     * @param method 方法
+     * @param paramCount 参数数量（取前 N 个参数）
+     * @return 参数列表字符串，如果参数数量为 0 则返回空字符串
+     */
+    fun buildParameterList(method: PsiMethod, paramCount: Int): String {
+        if (paramCount == 0) {
+            return ""
+        }
+        
+        val params = method.parameterList.parameters.take(paramCount)
+        return params.joinToString(", ") { param ->
+            val typeName = param.type.presentableText
+            val paramName = param.name ?: "arg"
+            "$typeName $paramName"
+        }
+    }
+    
+    /**
+     * 构建参数类型列表字符串，用于错误提示
+     * 
+     * 格式：类型1, 类型2
+     * 例如：int, String
+     * 
+     * @param method 方法
+     * @return 参数类型列表字符串
+     */
+    fun buildParameterTypeList(method: PsiMethod): String {
+        return method.parameterList.parameters.joinToString(", ") { 
+            it.type.presentableText 
+        }
+    }
+    
+    /**
+     * 获取方法头的 TextRange（从修饰符到参数列表结束）
+     * 不包括方法体
+     * 
+     * 用于在 inspection 中只高亮方法签名部分，而不是整个方法体
+     * 
+     * @param method 方法
+     * @return 方法头的 TextRange
+     */
+    fun getHeaderRange(method: PsiMethod): TextRange {
+        // 找到开始位置
+        val startElement = method.modifierList.takeIf { it.textLength > 0 } 
+            ?: method.returnTypeElement 
+            ?: method.nameIdentifier
+            ?: method
+        
+        // 结束位置是参数列表
+        val endElement = method.parameterList
+        
+        // 计算相对于 method 的偏移
+        val startOffset = startElement.textRange.startOffset - method.textRange.startOffset
+        val endOffset = endElement.textRange.endOffset - method.textRange.startOffset
+        
+        return TextRange(startOffset, endOffset)
     }
 }
 

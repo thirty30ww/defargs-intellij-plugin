@@ -20,7 +20,7 @@ service.createUser("Alice");  // 报错：找不到方法
 ## 安装方法
 
 ### 手动安装
-
+0
 1. 从 [Releases](https://github.com/thirty30ww/defargs-intellij-plugin/releases) 页面下载最新的插件 zip 包
 2. 打开 IDEA，进入 `Settings` → `Plugins` → 齿轮图标 → `Install Plugin from Disk...`
 3. 选择下载的 zip 包并安装
@@ -48,6 +48,11 @@ gradlew buildPlugin
 - **方法跳转**：支持跳转到原始方法定义
 - **引用查找**：能够找到对虚拟重载方法的所有调用
 - **冲突检测**：检测手动定义的方法是否与生成的重载方法冲突
+- **注解使用检查与快速修复**：
+  - **实时检测**：检测 `@DefaultValue` 和 `@Omittable` 的错误使用
+  - **快速修复**：在抽象方法上使用 `@DefaultValue` 时，提供一键转换为 `@Omittable`（Alt+Enter）
+  - **双向转换**：在具体方法上使用 `@Omittable` 时，提供一键转换为 `@DefaultValue`（Alt+Enter）
+  - **智能 import**：快速修复会自动添加必要的 import 语句
 
 ## 兼容性
 

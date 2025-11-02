@@ -147,14 +147,14 @@ object AnnotationAnalyzer {
     /**
      * 检查参数是否有 @DefaultValue 注解
      */
-    private fun hasDefaultValueAnnotation(parameter: PsiParameter): Boolean {
+    fun hasDefaultValueAnnotation(parameter: PsiParameter): Boolean {
         return hasAnnotation(parameter, DefArgsConstants.DEFAULT_VALUE_ANNOTATION)
     }
     
     /**
      * 检查参数是否有 @Omittable 注解
      */
-    private fun hasOmittableAnnotation(parameter: PsiParameter): Boolean {
+    fun hasOmittableAnnotation(parameter: PsiParameter): Boolean {
         return hasAnnotation(parameter, DefArgsConstants.OMITTABLE_ANNOTATION)
     }
     

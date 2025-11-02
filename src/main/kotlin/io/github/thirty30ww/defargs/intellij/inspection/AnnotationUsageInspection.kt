@@ -4,6 +4,8 @@ import com.intellij.codeInspection.AbstractBaseJavaLocalInspectionTool
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*
 import io.github.thirty30ww.defargs.intellij.constant.DefArgsConstants
+import io.github.thirty30ww.defargs.intellij.quickfix.ConvertToDefaultValueQuickFix
+import io.github.thirty30ww.defargs.intellij.quickfix.ConvertToOmittableQuickFix
 import io.github.thirty30ww.defargs.intellij.util.AnnotationAnalyzer
 import io.github.thirty30ww.defargs.intellij.util.MessageBuilder
 import io.github.thirty30ww.defargs.intellij.util.MethodAnalyzer
@@ -69,7 +71,8 @@ class AnnotationUsageInspection : AbstractBaseJavaLocalInspectionTool() {
         if (annotation != null) {
             holder.registerProblem(
                 annotation,
-                MessageBuilder.defaultValueOnAbstractMethod()
+                MessageBuilder.defaultValueOnAbstractMethod(),
+                ConvertToOmittableQuickFix()
             )
         }
     }
@@ -86,7 +89,8 @@ class AnnotationUsageInspection : AbstractBaseJavaLocalInspectionTool() {
         if (annotation != null) {
             holder.registerProblem(
                 annotation,
-                MessageBuilder.omittableOnConcreteMethod()
+                MessageBuilder.omittableOnConcreteMethod(),
+                ConvertToDefaultValueQuickFix()
             )
         }
     }

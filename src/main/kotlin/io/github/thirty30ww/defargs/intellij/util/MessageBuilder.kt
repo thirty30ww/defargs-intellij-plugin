@@ -47,5 +47,18 @@ object MessageBuilder {
     fun omittableOnConcreteMethod(): String {
         return "@Omittable 只能用于抽象方法。具体方法请使用 @DefaultValue 注解"
     }
+    
+    /**
+     * 父类型缺少对应的重载方法
+     */
+    fun missingOverloadInSuperType(
+        superTypeName: String,
+        methodName: String,
+        parameterList: String,
+        missingParamName: String
+    ): String {
+        return "父类型 '$superTypeName' 中缺少对应的重载方法 $methodName($parameterList)。" +
+               "参数 '$missingParamName' 有 @DefaultValue，请在父类型中添加 @Omittable 注解或手动定义重载方法"
+    }
 }
 

@@ -62,5 +62,14 @@
             enabledByDefault="true"
             level="ERROR"
             implementationClass="io.github.thirty30ww.defargs.intellij.inspection.AnnotationUsageInspection"/>
+        
+        <!-- 注册代码检查，用于检测接口和实现的注解不匹配 -->
+        <localInspection
+            language="JAVA"
+            displayName="DefArgs annotation mismatch"
+            groupName="DefArgs"
+            enabledByDefault="true"
+            level="ERROR"
+            implementationClass="io.github.thirty30ww.defargs.intellij.inspection.AnnotationMismatchInspection"/>
     </extensions>
 </idea-plugin>
