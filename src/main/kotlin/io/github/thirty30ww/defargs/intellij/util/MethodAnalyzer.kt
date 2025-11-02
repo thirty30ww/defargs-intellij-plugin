@@ -1,8 +1,9 @@
 package io.github.thirty30ww.defargs.intellij.util
 
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiMethod
-import com.intellij.psi.PsiModifier
+import com.intellij.psi.*
+import com.intellij.psi.impl.light.LightMethodBuilder
+import com.intellij.psi.search.searches.ClassInheritorsSearch
 
 /**
  * 方法分析工具类
@@ -184,6 +185,130 @@ object MethodAnalyzer {
             it.name == originalMethod.name &&
             it.parameterList.parametersCount == paramCount
         }
+    }
+    
+    /**
+     * 查找接口/抽象方法的所有具体实现
+     * 
+     * @param interfaceMethod 接口或抽象类中的方法
+     * @return 实现该方法的具体方法列表
+     */
+    fun findImplementations(interfaceMethod: PsiMethod): List<PsiMethod> {
+        val results = mutableListOf<PsiMethod>()
+        
+        // 使用 PsiMethod 的内置方法查找所有实现
+        val superMethodHierarchy = interfaceMethod.findDeepestSuperMethods()
+        if (superMethodHierarchy.isEmpty()) {
+            // 如果没有更深的父方法，就从当前方法开始查找
+            findImplementationsRecursive(interfaceMethod, results)
+        } else {
+            // 从最深的父方法开始查找
+            for (superMethod in superMethodHierarchy) {
+                findImplementationsRecursive(superMethod, results)
+            }
+        }
+        
+        return results
+    }
+    
+    /**
+     * 递归查找方法的实现
+     * 
+     * @param method 要查找实现的方法
+     * @param results 结果列表
+     */
+    private fun findImplementationsRecursive(method: PsiMethod, results: MutableList<PsiMethod>) {
+        // 查找直接覆盖/实现此方法的子方法
+        val containingClass = method.containingClass ?: return
+        
+        // 遍历所有可能的子类
+        val inheritors = findInheritors(containingClass)
+        for (inheritor in inheritors) {
+            // 在子类中查找覆盖此方法的方法
+            val overridingMethod = findOverridingMethod(inheritor, method)
+            if (overridingMethod != null) {
+                // 如果是具体实现（不是抽象的），添加到结果
+                if (!overridingMethod.hasModifierProperty(PsiModifier.ABSTRACT)) {
+                    results.add(overridingMethod)
+                } else {
+                    // 如果还是抽象的，继续递归查找
+                    findImplementationsRecursive(overridingMethod, results)
+                }
+            }
+        }
+    }
+    
+    /**
+     * 查找类的所有子类/实现类
+     * 
+     * @param psiClass 父类/接口
+     * @return 子类/实现类列表
+     */
+    private fun findInheritors(psiClass: PsiClass): List<PsiClass> {
+        val results = mutableListOf<PsiClass>()
+        
+        // 使用 IntelliJ 提供的高效搜索 API
+        ClassInheritorsSearch.search(psiClass, psiClass.resolveScope, true).forEach { inheritor ->
+            results.add(inheritor)
+        }
+        
+        return results
+    }
+    
+    /**
+     * 在子类中查找覆盖指定方法的方法
+     * 
+     * @param inheritor 子类
+     * @param superMethod 父类方法
+     * @return 覆盖方法，如果没有则返回 null
+     */
+    private fun findOverridingMethod(inheritor: PsiClass, superMethod: PsiMethod): PsiMethod? {
+        val methods = inheritor.findMethodsByName(superMethod.name, false)
+        for (method in methods) {
+            // 检查是否是覆盖方法
+            if (method.findSuperMethods().any { it == superMethod || it.isEquivalentTo(superMethod) }) {
+                return method
+            }
+        }
+        return null
+    }
+    
+    /**
+     * 在类中查找虚拟重载方法
+     * 
+     * @param psiClass 要搜索的类
+     * @param methodName 方法名
+     * @param paramCount 参数数量
+     * @param originalMethod 原始方法（用于匹配虚拟方法的导航目标）
+     * @return 虚拟方法，如果没有则返回 null
+     */
+    fun findVirtualMethod(
+        psiClass: PsiClass,
+        methodName: String,
+        paramCount: Int,
+        originalMethod: PsiMethod
+    ): PsiMethod? {
+        // 查找类中的所有方法，包括虚拟方法
+        val allMethods = psiClass.allMethods
+        
+        for (method in allMethods) {
+            // 检查方法名和参数数量
+            if (method.name == methodName && 
+                method.parameterList.parametersCount == paramCount) {
+                
+                // 如果是虚拟方法（LightMethodBuilder），且导航目标是原始方法
+                if (method is LightMethodBuilder) {
+                    if (method.navigationElement == originalMethod) {
+                        return method
+                    }
+                } else {
+                    // 如果是实际方法（参数较少的手动实现），也返回
+                    return method
+                }
+            }
+        }
+        
+        return null
     }
 }
 

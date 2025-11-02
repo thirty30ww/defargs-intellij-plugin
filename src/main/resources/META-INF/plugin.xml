@@ -43,7 +43,15 @@
         
         <!-- 注册方法引用搜索器，用于查找对虚拟重载方法的引用 -->
         <methodReferencesSearch 
-            implementation="io.github.thirty30ww.defargs.intellij.ReferenceSearcher"/>
+            implementation="io.github.thirty30ww.defargs.intellij.search.ReferenceSearcher"/>
+        
+        <!-- 注册方法实现搜索器，用于查找接口方法的虚拟重载方法实现 -->
+        <definitionsScopedSearch 
+            implementation="io.github.thirty30ww.defargs.intellij.search.ImplementationSearcher"/>
+        
+        <!-- 注册父方法搜索器，用于查找实现类虚拟方法对应的接口虚拟方法 -->
+        <superMethodsSearch 
+            implementation="io.github.thirty30ww.defargs.intellij.search.SuperMethodSearcher"/>
         
         <!-- 注册代码检查，用于检测重载方法冲突 -->
         <localInspection

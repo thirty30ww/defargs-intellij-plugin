@@ -1,4 +1,4 @@
-package io.github.thirty30ww.defargs.intellij
+package io.github.thirty30ww.defargs.intellij.search
 
 import com.intellij.openapi.application.QueryExecutorBase
 import com.intellij.psi.*
