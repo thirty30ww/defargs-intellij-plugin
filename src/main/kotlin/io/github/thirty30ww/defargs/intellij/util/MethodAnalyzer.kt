@@ -310,5 +310,64 @@ object MethodAnalyzer {
         
         return null
     }
+    
+    /**
+     * 在类中查找手动定义的重载方法
+     * 
+     * @param psiClass 要搜索的类
+     * @param methodName 方法名
+     * @param paramCount 参数数量
+     * @param referenceMethod 参考方法（用于检查签名兼容性）
+     * @return 重载方法，如果没有则返回 null
+     */
+    fun findOverloadMethod(
+        psiClass: PsiClass,
+        methodName: String,
+        paramCount: Int,
+        referenceMethod: PsiMethod
+    ): PsiMethod? {
+        val methods = psiClass.findMethodsByName(methodName, false)
+        
+        return methods.find { method ->
+            method.parameterList.parametersCount == paramCount &&
+            !method.hasModifierProperty(PsiModifier.STATIC) &&
+            isSignatureCompatible(referenceMethod, method, paramCount)
+        }
+    }
+    
+    /**
+     * 检查两个方法的签名是否兼容，
+     *
+     * 即方法名相同，且前 compareParamCount 个参数类型兼容。
+     *
+     * @param method1 方法1
+     * @param method2 方法2
+     * @param compareParamCount 需要比较的参数数量
+     * @return true 如果签名兼容
+     */
+    private fun isSignatureCompatible(
+        method1: PsiMethod,
+        method2: PsiMethod,
+        compareParamCount: Int
+    ): Boolean {
+        if (method1.name != method2.name) return false
+        
+        val params1 = method1.parameterList.parameters
+        val params2 = method2.parameterList.parameters
+        
+        if (params2.size < compareParamCount) return false
+        
+        // 检查前 N 个参数类型是否兼容
+        for (i in 0 until compareParamCount) {
+            val type1 = params1[i].type
+            val type2 = params2[i].type
+            
+            if (!type1.isAssignableFrom(type2) && !type2.isAssignableFrom(type1)) {
+                return false
+            }
+        }
+        
+        return true
+    }
 }
 
