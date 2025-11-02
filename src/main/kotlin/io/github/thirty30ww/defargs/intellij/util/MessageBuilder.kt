@@ -26,5 +26,26 @@ object MessageBuilder {
     fun methodCallAmbiguous(className: String, methodName: String, paramTypes: String): String {
         return "【DefaultValue】方法调用不明确。$className 中的<br>$methodName($paramTypes) 和 $className 中的<br>$methodName($paramTypes) 均匹配"
     }
+    
+    /**
+     * 参数不能同时使用两个注解
+     */
+    fun annotationsMutuallyExclusive(paramName: String): String {
+        return "参数 '$paramName' 不能同时使用 @DefaultValue 和 @Omittable 注解"
+    }
+    
+    /**
+     * @DefaultValue 不能用于抽象方法
+     */
+    fun defaultValueOnAbstractMethod(): String {
+        return "@DefaultValue 不能用于抽象方法。抽象方法请使用 @Omittable 注解"
+    }
+    
+    /**
+     * @Omittable 只能用于抽象方法
+     */
+    fun omittableOnConcreteMethod(): String {
+        return "@Omittable 只能用于抽象方法。具体方法请使用 @DefaultValue 注解"
+    }
 }
 

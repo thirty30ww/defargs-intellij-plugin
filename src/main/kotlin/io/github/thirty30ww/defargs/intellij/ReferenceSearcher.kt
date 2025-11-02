@@ -8,7 +8,7 @@ import com.intellij.psi.search.UsageSearchContext
 import com.intellij.psi.search.searches.MethodReferencesSearch
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.Processor
-import io.github.thirty30ww.defargs.intellij.util.DefaultValueAnalyzer
+import io.github.thirty30ww.defargs.intellij.util.AnnotationAnalyzer
 
 /**
  * 虚拟方法引用搜索器
@@ -50,7 +50,7 @@ class ReferenceSearcher : QueryExecutorBase<PsiReference, MethodReferencesSearch
         
         // 分析方法，获取虚拟重载方法的参数数量列表
         // 例如：方法有3个参数，后2个有默认值，则返回 [1, 2]（表示生成了1个参数和2个参数的重载）
-        val virtualOverloadParamCounts = DefaultValueAnalyzer.analyzeMethod(method)
+        val virtualOverloadParamCounts = AnnotationAnalyzer.analyzeMethod(method)
         
         // 如果没有默认值参数，无需处理
         if (virtualOverloadParamCounts.isEmpty()) return

@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8ea831f3-5e83-4d58-a710-2f85983f9200" name="更改" comment="" />
+    <list default="true" id="8ea831f3-5e83-4d58-a710-2f85983f9200" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -102,7 +104,7 @@
       <recent name="io.github.thirty30ww.defargs.intellij" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.defargs-intellij-plugin [build]">
+  <component name="RunManager" selected="Gradle.Run Plugin">
     <configuration name="defargs-intellij-plugin [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -191,6 +193,8 @@
       <workItem from="1761972008869" duration="1753000" />
       <workItem from="1761973772902" duration="473000" />
       <workItem from="1761976440794" duration="1500000" />
+      <workItem from="1761996403234" duration="1055000" />
+      <workItem from="1761999651712" duration="2443000" />
     </task>
     <servers />
   </component>

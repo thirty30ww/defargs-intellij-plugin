@@ -16,15 +16,16 @@
     <description><![CDATA[
     为 DefArgs 注解处理器提供 IntelliJ IDEA 支持。<br>
     <br>
-    DefArgs 是一个 Java 注解处理器，通过 @DefaultValue 注解自动生成方法的重载版本。<br>
+    DefArgs 是一个 Java 注解处理器，通过 @DefaultValue 和 @Omittable 注解自动生成方法的重载版本。<br>
     该插件让 IDEA 能够识别这些在编译时生成的重载方法，消除代码中的"红色波浪线"错误提示。<br>
     <br>
     <strong>功能特性：</strong>
     <ul>
-      <li>自动识别 @DefaultValue 注解的方法参数</li>
+      <li>自动识别 @DefaultValue 和 @Omittable 注解的方法参数</li>
       <li>为编译时生成的重载方法提供代码补全</li>
       <li>消除 IDEA 对生成方法的错误提示</li>
       <li>支持方法跳转和引用查找</li>
+      <li>支持接口和抽象类的重载方法生成</li>
     </ul>
   ]]></description>
 
@@ -51,6 +52,15 @@
             groupName="DefArgs"
             enabledByDefault="true"
             level="ERROR"
-            implementationClass="io.github.thirty30ww.defargs.intellij.ConflictInspection"/>
+            implementationClass="io.github.thirty30ww.defargs.intellij.inspection.OverloadConflictInspection"/>
+        
+        <!-- 注册代码检查，用于检测注解使用错误 -->
+        <localInspection
+            language="JAVA"
+            displayName="DefArgs annotation usage"
+            groupName="DefArgs"
+            enabledByDefault="true"
+            level="ERROR"
+            implementationClass="io.github.thirty30ww.defargs.intellij.inspection.AnnotationUsageInspection"/>
     </extensions>
 </idea-plugin>

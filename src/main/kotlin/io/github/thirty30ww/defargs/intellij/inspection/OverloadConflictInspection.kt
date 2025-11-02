@@ -1,9 +1,9 @@
-package io.github.thirty30ww.defargs.intellij
+package io.github.thirty30ww.defargs.intellij.inspection
 
 import com.intellij.codeInspection.AbstractBaseJavaLocalInspectionTool
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*
-import io.github.thirty30ww.defargs.intellij.util.DefaultValueAnalyzer
+import io.github.thirty30ww.defargs.intellij.util.AnnotationAnalyzer
 import io.github.thirty30ww.defargs.intellij.util.MessageBuilder
 import io.github.thirty30ww.defargs.intellij.util.getHeaderRange
 import io.github.thirty30ww.defargs.intellij.util.getParameterTypeNames
@@ -11,10 +11,11 @@ import io.github.thirty30ww.defargs.intellij.util.getParameterTypeNames
 /**
  * 检测 @DefaultValue 生成的重载方法与手动定义的方法冲突
  */
-class ConflictInspection : AbstractBaseJavaLocalInspectionTool() {
+class OverloadConflictInspection : AbstractBaseJavaLocalInspectionTool() {
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
         return object : JavaElementVisitor() {
+
             override fun visitMethod(method: PsiMethod) {
                 super.visitMethod(method)
                 
@@ -22,11 +23,11 @@ class ConflictInspection : AbstractBaseJavaLocalInspectionTool() {
                 val containingClass = method.containingClass ?: return
                 
                 // 分析方法，查看会生成哪些重载
-                val overloadParameterCounts = DefaultValueAnalyzer.analyzeMethod(method)
+                val overloadParameterCounts = AnnotationAnalyzer.analyzeMethod(method)
                 
                 // 检查每个会生成的重载是否与已存在的方法冲突
                 for (paramCount in overloadParameterCounts) {
-                    if (DefaultValueAnalyzer.methodExists(containingClass, method.name, paramCount)) {
+                    if (AnnotationAnalyzer.methodExists(containingClass, method.name, paramCount)) {
                         val conflictingMethod = findConflictingMethod(containingClass, method, paramCount)
                         
                         if (conflictingMethod != null) {
@@ -50,7 +51,7 @@ class ConflictInspection : AbstractBaseJavaLocalInspectionTool() {
                     }
                 }
             }
-            
+
             override fun visitMethodCallExpression(expression: PsiMethodCallExpression) {
                 super.visitMethodCallExpression(expression)
                 
@@ -81,7 +82,7 @@ class ConflictInspection : AbstractBaseJavaLocalInspectionTool() {
         if (method is com.intellij.psi.impl.light.LightElement) return null
         
         // 如果当前方法本身就带有 @DefaultValue，不是冲突方法
-        if (DefaultValueAnalyzer.analyzeMethod(method).isNotEmpty()) return null
+        if (AnnotationAnalyzer.analyzeMethod(method).isNotEmpty()) return null
         
         // 查找类中所有带 @DefaultValue 的方法
         val methods = if (containingClass is com.intellij.psi.impl.source.PsiExtensibleClass) {
@@ -96,7 +97,7 @@ class ConflictInspection : AbstractBaseJavaLocalInspectionTool() {
             if (otherMethod.isConstructor || otherMethod == method) continue
             
             // 分析该方法会生成哪些重载
-            val overloadParameterCounts = DefaultValueAnalyzer.analyzeMethod(otherMethod)
+            val overloadParameterCounts = AnnotationAnalyzer.analyzeMethod(otherMethod)
             
             // 检查是否会生成与当前方法签名相同的重载
             if (overloadParameterCounts.contains(currentParamCount) && method.name == otherMethod.name) {
