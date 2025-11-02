@@ -133,5 +133,57 @@ object MethodAnalyzer {
         
         return TextRange(startOffset, endOffset)
     }
+    
+    /**
+     * 检查类中是否已存在指定签名的方法
+     * 
+     * 注意：只检查类本身的方法，不包括继承的方法，避免递归循环
+     * 
+     * @param containingClass 包含方法的类
+     * @param methodName 方法名
+     * @param parameterCount 参数数量
+     * @return 如果存在返回 true，否则返回 false
+     */
+    fun methodExists(containingClass: com.intellij.psi.PsiClass, methodName: String, parameterCount: Int): Boolean {
+        // 使用 ownMethods 而不是 findMethodsByName，避免触发 PsiAugmentProvider 导致递归
+        if (containingClass is com.intellij.psi.impl.source.PsiExtensibleClass) {
+            return containingClass.ownMethods.any {
+                it.name == methodName && it.parameterList.parametersCount == parameterCount
+            }
+        }
+        
+        // 对于其他类型的 PsiClass，回退到 methods 属性
+        return containingClass.methods.any {
+            it.name == methodName && it.parameterList.parametersCount == parameterCount
+        }
+    }
+    
+    /**
+     * 查找与指定签名冲突的方法
+     * 
+     * 在类中查找与 originalMethod 同名但参数数量为 paramCount 的方法
+     * 
+     * @param containingClass 包含方法的类
+     * @param originalMethod 原始方法
+     * @param paramCount 要查找的方法的参数数量
+     * @return 冲突的方法，如果没有找到则返回 null
+     */
+    fun findConflictingMethod(
+        containingClass: com.intellij.psi.PsiClass,
+        originalMethod: PsiMethod,
+        paramCount: Int
+    ): PsiMethod? {
+        val methods = if (containingClass is com.intellij.psi.impl.source.PsiExtensibleClass) {
+            containingClass.ownMethods
+        } else {
+            containingClass.methods.toList()
+        }
+        
+        return methods.find {
+            it != originalMethod &&
+            it.name == originalMethod.name &&
+            it.parameterList.parametersCount == paramCount
+        }
+    }
 }
 

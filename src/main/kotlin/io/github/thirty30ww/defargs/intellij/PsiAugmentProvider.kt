@@ -5,6 +5,7 @@ import com.intellij.psi.augment.PsiAugmentProvider as IntelliJPsiAugmentProvider
 import com.intellij.psi.impl.light.LightMethodBuilder
 import com.intellij.psi.impl.source.PsiExtensibleClass
 import io.github.thirty30ww.defargs.intellij.util.AnnotationAnalyzer
+import io.github.thirty30ww.defargs.intellij.util.MethodAnalyzer
 
 /**
  * PSI 增强提供者，为带有 @DefaultValue 或 @Omittable 注解的方法生成虚拟的重载方法
@@ -73,7 +74,7 @@ class PsiAugmentProvider : IntelliJPsiAugmentProvider() {
         // 为每个需要的重载生成虚拟方法
         for (paramCount in overloadParameterCounts) {
             // 检查是否已存在相同签名的方法
-            if (AnnotationAnalyzer.methodExists(containingClass, method.name, paramCount)) {
+            if (MethodAnalyzer.methodExists(containingClass, method.name, paramCount)) {
                 continue
             }
             

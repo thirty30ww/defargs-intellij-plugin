@@ -157,40 +157,6 @@ object AnnotationAnalyzer {
     fun hasOmittableAnnotation(parameter: PsiParameter): Boolean {
         return hasAnnotation(parameter, DefArgsConstants.OMITTABLE_ANNOTATION)
     }
-    
-    /**
-     * 获取参数的默认值（从 @DefaultValue 注解中）
-     * 注意：@Omittable 注解没有值
-     */
-    fun getDefaultValue(parameter: PsiParameter): String? {
-        val annotation = parameter.annotations.find { 
-            it.qualifiedName == DefArgsConstants.DEFAULT_VALUE_ANNOTATION
-        } ?: return null
-        
-        val value = annotation.findAttributeValue("value")
-        if (value is PsiLiteralExpression) {
-            return value.value?.toString()
-        }
-        
-        return null
-    }
-    
-    /**
-     * 检查类中是否已存在指定签名的方法
-     * 注意：只检查类本身的方法，不包括继承的方法，避免递归循环
-     */
-    fun methodExists(containingClass: PsiClass, methodName: String, parameterCount: Int): Boolean {
-        // 使用 ownMethods 而不是 findMethodsByName，避免触发 PsiAugmentProvider 导致递归
-        if (containingClass is com.intellij.psi.impl.source.PsiExtensibleClass) {
-            return containingClass.ownMethods.any {
-                it.name == methodName && it.parameterList.parametersCount == parameterCount
-            }
-        }
-        
-        // 对于其他类型的 PsiClass，回退到 methods 属性
-        return containingClass.methods.any {
-            it.name == methodName && it.parameterList.parametersCount == parameterCount
-        }
-    }
+
 }
 

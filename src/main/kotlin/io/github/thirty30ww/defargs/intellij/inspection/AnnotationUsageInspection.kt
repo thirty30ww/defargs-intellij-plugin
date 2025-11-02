@@ -19,7 +19,16 @@ import io.github.thirty30ww.defargs.intellij.util.MethodAnalyzer
  * - 同一个参数不能同时使用两个注解
  */
 class AnnotationUsageInspection : AbstractBaseJavaLocalInspectionTool() {
-    
+
+    /**
+     * 构建访问器
+     *
+     * 遍历所有方法，检查每个参数是否符合注解使用规则
+     *
+     * @param holder 问题报告器
+     * @param isOnTheFly 是否为实时检查
+     * @return 访问器实例
+     */
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
         return object : JavaElementVisitor() {
             override fun visitMethod(method: PsiMethod) {
@@ -40,6 +49,9 @@ class AnnotationUsageInspection : AbstractBaseJavaLocalInspectionTool() {
     
     /**
      * 检查参数是否同时使用了两个注解
+     *
+     * @param parameter 要检查的参数
+     * @param holder 问题报告器
      */
     private fun checkBothAnnotations(parameter: PsiParameter, holder: ProblemsHolder) {
         if (!AnnotationAnalyzer.hasBothAnnotations(parameter)) {
@@ -60,7 +72,11 @@ class AnnotationUsageInspection : AbstractBaseJavaLocalInspectionTool() {
     }
     
     /**
-     * 检查是否在抽象方法上错误地使用了 @DefaultValue
+     * 检查是否在抽象方法上错误地使用了 @DefaultValue 注解
+     *
+     * @param parameter 要检查的参数
+     * @param isAbstractMethod 是否为抽象方法
+     * @param holder 问题报告器
      */
     private fun checkDefaultValueOnAbstractMethod(parameter: PsiParameter, isAbstractMethod: Boolean, holder: ProblemsHolder) {
         if (!AnnotationAnalyzer.hasDefaultValueOnAbstractMethod(parameter, isAbstractMethod)) {
@@ -79,6 +95,10 @@ class AnnotationUsageInspection : AbstractBaseJavaLocalInspectionTool() {
     
     /**
      * 检查是否在具体方法上错误地使用了 @Omittable
+     *
+     * @param parameter 要检查的参数
+     * @param isAbstractMethod 是否为抽象方法
+     * @param holder 问题报告器
      */
     private fun checkOmittableOnConcreteMethod(parameter: PsiParameter, isAbstractMethod: Boolean, holder: ProblemsHolder) {
         if (!AnnotationAnalyzer.hasOmittableOnConcreteMethod(parameter, isAbstractMethod)) {

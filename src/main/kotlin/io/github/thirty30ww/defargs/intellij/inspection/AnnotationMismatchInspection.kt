@@ -10,11 +10,10 @@ import io.github.thirty30ww.defargs.intellij.util.MessageBuilder
 import io.github.thirty30ww.defargs.intellij.util.MethodAnalyzer
 
 /**
- * 检查接口方法和实现方法的注解是否匹配
- * 
- * 规则：
- * - 实现方法的 @DefaultValue 必须对应父方法的 @Omittable
- * - 父方法的 @Omittable 不强制要求实现方法有 @DefaultValue（可以手动实现重载）
+ * 检查实现方法的 @DefaultValue 所生成的所有虚拟重载方法，是否在父方法/接口方法中对应
+ *
+ * 规则
+ * - 实现方法的 @DefaultValue 所生成的所有虚拟重载方法，必须在父方法/接口方法中对应
  */
 class AnnotationMismatchInspection : AbstractBaseJavaLocalInspectionTool() {
 
@@ -102,9 +101,6 @@ class AnnotationMismatchInspection : AbstractBaseJavaLocalInspectionTool() {
         if (implHasDefaultValue && !superHasOmittable) {
             checkOverloadMethodExists(implMethod, implParam, superMethod, paramIndex, holder)
         }
-        
-        // 注意：父方法有 @Omittable，实现方法不一定要有 @DefaultValue
-        // 因为实现类可以选择手动实现所有重载方法，所以不检查这种情况
     }
     
     /**
@@ -123,6 +119,7 @@ class AnnotationMismatchInspection : AbstractBaseJavaLocalInspectionTool() {
         paramIndex: Int,
         holder: ProblemsHolder
     ) {
+        // 检查父方法是否为接口或类
         val superClass = superMethod.containingClass ?: return
         
         // 计算需要生成的重载方法的参数数量

@@ -17,7 +17,7 @@ import io.github.thirty30ww.defargs.intellij.util.AnnotationAnalyzer
  * 
  * 工作原理：
  * 1. 当用户在方法定义上执行"查找引用"时，此搜索器会被调用
- * 2. 检查方法是否有 @DefaultValue 注解的参数
+ * 2. 检查方法是否有 @DefaultValue 或 @Omittable 注解的参数
  * 3. 如果有，搜索代码中所有对该方法名的调用
  * 4. 过滤出参数数量匹配虚拟重载方法的调用
  * 5. 将这些调用添加到搜索结果中

@@ -68,12 +68,12 @@ class OverloadConflictInspection : AbstractBaseJavaLocalInspectionTool() {
         holder: ProblemsHolder
     ) {
         // 检查是否存在同名同参数数量的方法
-        if (!AnnotationAnalyzer.methodExists(containingClass, method.name, paramCount)) {
+        if (!MethodAnalyzer.methodExists(containingClass, method.name, paramCount)) {
             return
         }
         
         // 找到冲突的方法
-        val conflictingMethod = findConflictingMethod(containingClass, method, paramCount) ?: return
+        val conflictingMethod = MethodAnalyzer.findConflictingMethod(containingClass, method, paramCount) ?: return
         
         // 报告冲突
         reportMethodConflict(method, conflictingMethod, paramCount, containingClass, holder)
@@ -174,32 +174,6 @@ class OverloadConflictInspection : AbstractBaseJavaLocalInspectionTool() {
         }
         
         return null
-    }
-    
-    /**
-     * 查找与生成方法冲突的实际方法
-     * 
-     * @param containingClass 包含方法的类
-     * @param originalMethod 原始方法
-     * @param paramCount 要查找的方法的参数数量
-     * @return 冲突的方法，如果没有找到则返回 null
-     */
-    private fun findConflictingMethod(
-        containingClass: PsiClass,
-        originalMethod: PsiMethod,
-        paramCount: Int
-    ): PsiMethod? {
-        val methods = if (containingClass is com.intellij.psi.impl.source.PsiExtensibleClass) {
-            containingClass.ownMethods
-        } else {
-            containingClass.methods.toList()
-        }
-        
-        return methods.find {
-            it != originalMethod &&
-            it.name == originalMethod.name &&
-            it.parameterList.parametersCount == paramCount
-        }
     }
 }
 
